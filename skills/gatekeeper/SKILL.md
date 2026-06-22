@@ -53,3 +53,7 @@ Remove or move the secret, and rotate it if it was ever real, even after a histo
 ## Scope
 
 This is the high-signal core: secret and private-info patterns, runnable anywhere Node is, with no dependencies. It does not replace a deep secret-history scanner like gitleaks or trufflehog, or a license and SBOM audit. For a package you are publishing to a registry, run those too.
+
+## Disclaimer
+
+This is a best-effort, pattern-based scanner, not a guarantee. A clean result means the built-in patterns and your configured deny terms matched nothing in the scanned files. It does not prove the repo is free of secrets or private information. New or obfuscated formats, and anything the patterns do not cover, will slip through. Treat a clean scan as one check among several: run a deeper secret-history scanner and review the diff yourself before you make a repo public. You are responsible for what you publish.
