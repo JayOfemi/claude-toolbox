@@ -1,44 +1,45 @@
 # Toolbox
 
-An open library of reusable Claude Code skills, commands, and scripts.
+Small, portable tools for Claude Code: skills, commands, and scripts pulled from real daily use, packaged so you can install one in seconds and own it.
 
-- Skills live in `skills/<name>/` and install to `~/.claude/skills/<name>/`. A skill is one Claude invokes on its own when a task matches its description.
-- Commands live in `commands/<name>.md` and install to `~/.claude/commands/<name>.md`. A command is a slash command you invoke by name, like `/screenshot`.
-- Scripts a skill or command needs ship inside that entry's folder.
+Each entry is small and does one thing. They install by copying into your Claude Code config, carry no lock-in, and work with whatever model you run. Read them, change them, keep what is useful.
 
 ## Quickstart
-
-Install with the bundled installer; it copies the ones you pick into `~/.claude/`:
 
 ```
 npx @jayofemi/toolbox
 ```
 
-Install specific entries without the prompt:
+That lists everything and installs the ones you pick into `~/.claude/`. To grab one directly:
 
 ```
 npx @jayofemi/toolbox add screenshot
 ```
 
-`npx @jayofemi/toolbox list` shows everything available. Skills land in `~/.claude/skills/<name>/`, commands in `~/.claude/commands/<name>.md`.
+Run `npx @jayofemi/toolbox list` to see the catalog without installing.
 
-### Manual install
+## What is inside
 
-Copy any entry yourself: a command is `commands/<name>.md` copied into `~/.claude/commands/`; a skill is the `skills/<name>/` folder copied into `~/.claude/skills/`.
+Two kinds of entry, split by who invokes them:
 
-## Contents
+- **Commands** are slash commands you invoke by name, like `/screenshot`. They install to `~/.claude/commands/`.
+- **Skills** are ones Claude reaches for on its own when a task matches their description, and you can invoke them by name too. They install to `~/.claude/skills/`.
 
-Commands:
+### Commands
 
-- `screenshot` - save the last N prompt-reply exchanges, with the model that produced them, to a timestamped file in `captures/`.
+- **[screenshot](commands/screenshot.md)**: save a slice of the conversation. A good exchange is easy to lose once a session moves on or compacts, so `/screenshot` writes the last N prompt-and-reply pairs, with the model that produced them, to a timestamped file in `captures/`. The useful parts are kept verbatim.
 
-Skills:
+### Skills
 
-- none yet.
+None yet. The library is young and grows as tools earn their place in daily use.
+
+## Manual install
+
+Prefer to copy by hand? A command is `commands/<name>.md` into `~/.claude/commands/`; a skill is the `skills/<name>/` folder into `~/.claude/skills/`.
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md).
+Small, self-contained, portable contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
