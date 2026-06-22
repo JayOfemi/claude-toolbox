@@ -28,10 +28,12 @@ Two kinds of entry, split by who invokes them:
 ### Commands
 
 - **[screenshot](commands/screenshot.md)**: save a slice of the conversation. A good exchange is easy to lose once a session moves on or compacts, so `/screenshot` writes the last N prompt-and-reply pairs, with the model that produced them, to a timestamped file in `captures/`. The useful parts are kept verbatim.
+- **[startup](commands/startup.md)**: open a session cleanly. Stamps today's date so the agent stops guessing it, then reads the project's context files and confirms where things stand.
 
 ### Skills
 
 - **[wording](skills/wording/SKILL.md)**: lint user-visible text before it ships. Catches em and en dashes, AI-tell constructions, "copy" misused for site text, and jargon on non-technical surfaces, pairing a zero-dependency detector with judgment for the calls a regex cannot make.
+- **[gatekeeper](skills/gatekeeper/SKILL.md)**: scan a repo for secrets and private info before you make it public. Catches keys, tokens, private keys, leaked local paths, and configurable deny terms, with a zero-dependency detector.
 
 ## Manual install
 
