@@ -1,14 +1,8 @@
 ---
 name: wording
 description: >-
-  Lint user-visible text against a set of wording rules before it ships: em and
-  en dashes (banned outright), AI-tell constructions (the "No X, just Y" punch,
-  the "it is not X, it is Y" reversal, dismissive "that's the whole product"
-  closes), the word "copy" used to mean site text, and jargon on non-technical
-  surfaces. Use it whenever you draft or review any text a reader will see: UI
-  strings, marketing or site wording, READMEs, store listings, emails, error
-  messages, and commit messages. Trigger it even when the request does not say
-  "lint" or "wording", as long as the task produces or polishes text that ships.
+  Lint user-visible text before it ships: em and en dashes, AI-tell phrasing,
+  the word "copy" misused for site text, and jargon on non-technical surfaces.
 ---
 
 # Wording lint

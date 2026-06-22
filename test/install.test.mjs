@@ -14,6 +14,11 @@ test("frontmatterDescription returns empty without frontmatter", () => {
 	assert.equal(frontmatterDescription("# just a heading"), "");
 });
 
+test("frontmatterDescription folds a block-scalar description", () => {
+	const md = "---\ndescription: >-\n  First part,\n  second part.\nother: x\n---\nbody";
+	assert.equal(frontmatterDescription(md), "First part, second part.");
+});
+
 test("discoverEntries finds the screenshot command", () => {
 	const shot = discoverEntries().find((e) => e.name === "screenshot");
 	assert.ok(shot, "screenshot should be discovered");

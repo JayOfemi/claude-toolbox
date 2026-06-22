@@ -1,13 +1,9 @@
 ---
 name: gatekeeper
 description: >-
-  Scan a repository for secrets and private information before you make it public
-  or publish it. Catches API keys, tokens, private keys, connection strings,
-  local filesystem paths that leak a username, security-flavored TODOs, and
-  configurable deny terms (your work email domain, internal codenames). Use it
-  before flipping a repo public, before a first npm publish, and before every
-  release of a public package. Trigger it whenever the task involves making code
-  public or checking a repo for leaks.
+  Scan a repo for secrets and private info before it goes public: API keys,
+  tokens, private keys, connection strings, leaked local paths, and configurable
+  deny terms.
 ---
 
 # Gatekeeper scan

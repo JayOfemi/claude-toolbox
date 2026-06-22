@@ -10,14 +10,36 @@ import { createInterface } from "node:readline";
 
 const PKG_ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 
-/** Pull the `description:` value from a markdown file's YAML frontmatter. */
+/** Read the description from YAML frontmatter, folding a block scalar to one line. */
 export function frontmatterDescription(text) {
 	const m = text.match(/^---\r?\n([\s\S]*?)\r?\n---/);
 	if (!m) {
 		return "";
 	}
-	const line = m[1].split(/\r?\n/).find((l) => l.startsWith("description:"));
-	return line ? line.slice("description:".length).trim() : "";
+	const lines = m[1].split(/\r?\n/);
+	const i = lines.findIndex((l) => /^description\s*:/.test(l));
+	if (i === -1) {
+		return "";
+	}
+	const inline = lines[i].replace(/^description\s*:/, "").trim();
+	if (inline && !/^[|>][+-]?\d*$/.test(inline)) {
+		return stripQuotes(inline);
+	}
+	const body = [];
+	for (let j = i + 1; j < lines.length; j++) {
+		if (lines[j].trim() === "") {
+			continue;
+		}
+		if (!/^\s/.test(lines[j])) {
+			break;
+		}
+		body.push(lines[j].trim());
+	}
+	return body.join(" ");
+}
+
+function stripQuotes(s) {
+	return s.replace(/^(['"])([\s\S]*)\1$/, "$2");
 }
 
 /** Discover the commands and skills bundled in the package. */
