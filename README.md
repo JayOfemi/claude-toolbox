@@ -31,7 +31,7 @@ Two kinds of entry, split by who invokes them:
 
 ### Skills
 
-None yet. The library is young and grows as tools earn their place in daily use.
+- **[wording](skills/wording/SKILL.md)**: lint user-visible text before it ships. Catches em and en dashes, AI-tell constructions, "copy" misused for site text, and jargon on non-technical surfaces, pairing a zero-dependency detector with judgment for the calls a regex cannot make.
 
 ## Manual install
 
