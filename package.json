@@ -1,6 +1,6 @@
 {
   "name": "@jayofemi/toolbox",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "An open library of reusable Claude Code skills, commands, and scripts, with a one-command installer.",
   "type": "module",
   "bin": {
@@ -26,6 +26,9 @@
   ],
   "author": "Jay Ofemi",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JayOfemi/toolbox.git"
