@@ -2,40 +2,29 @@
 
 An open library of reusable Claude Code skills, commands, and scripts.
 
-Each entry is self-contained and installs by copying it into your Claude Code config.
-
 - Skills live in `skills/<name>/` and install to `~/.claude/skills/<name>/`. A skill is one Claude invokes on its own when a task matches its description.
 - Commands live in `commands/<name>.md` and install to `~/.claude/commands/<name>.md`. A command is a slash command you invoke by name, like `/screenshot`.
 - Scripts a skill or command needs ship inside that entry's folder.
 
-## Install a command
+## Quickstart
 
-macOS / Linux:
-
-```
-mkdir -p ~/.claude/commands && cp commands/screenshot.md ~/.claude/commands/
-```
-
-Windows (PowerShell):
+Install with the bundled installer; it copies the ones you pick into `~/.claude/`:
 
 ```
-New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.claude\commands" | Out-Null
-Copy-Item commands\screenshot.md "$env:USERPROFILE\.claude\commands\screenshot.md" -Force
+npx @jayofemi/toolbox
 ```
 
-## Install a skill
-
-macOS / Linux:
+Install specific entries without the prompt:
 
 ```
-cp -r skills/<name> ~/.claude/skills/
+npx @jayofemi/toolbox add screenshot
 ```
 
-Windows (PowerShell):
+`npx @jayofemi/toolbox list` shows everything available. Skills land in `~/.claude/skills/<name>/`, commands in `~/.claude/commands/<name>.md`.
 
-```
-Copy-Item -Recurse skills\<name> "$env:USERPROFILE\.claude\skills\" -Force
-```
+### Manual install
+
+Copy any entry yourself: a command is `commands/<name>.md` copied into `~/.claude/commands/`; a skill is the `skills/<name>/` folder copied into `~/.claude/skills/`.
 
 ## Contents
 
@@ -46,6 +35,10 @@ Commands:
 Skills:
 
 - none yet.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 

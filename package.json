@@ -1,0 +1,37 @@
+{
+  "name": "@jayofemi/toolbox",
+  "version": "0.1.0",
+  "description": "An open library of reusable Claude Code skills, commands, and scripts, with a one-command installer.",
+  "type": "module",
+  "bin": {
+    "toolbox": "bin/toolbox.mjs"
+  },
+  "files": [
+    "bin/",
+    "commands/",
+    "skills/"
+  ],
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "skills",
+    "slash-commands",
+    "ai-agents"
+  ],
+  "author": "Jay Ofemi",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JayOfemi/toolbox.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JayOfemi/toolbox/issues"
+  },
+  "homepage": "https://github.com/JayOfemi/toolbox#readme"
+}
