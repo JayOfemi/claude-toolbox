@@ -31,10 +31,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JayOfemi/toolbox.git"
+    "url": "git+https://github.com/JayOfemi/claude-toolbox.git"
   },
   "bugs": {
-    "url": "https://github.com/JayOfemi/toolbox/issues"
+    "url": "https://github.com/JayOfemi/claude-toolbox/issues"
   },
-  "homepage": "https://github.com/JayOfemi/toolbox#readme"
+  "homepage": "https://github.com/JayOfemi/claude-toolbox#readme"
 }
