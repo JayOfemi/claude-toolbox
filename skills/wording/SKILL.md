@@ -1,8 +1,9 @@
 ---
 name: wording
 description: >-
-  Lint user-visible text before it ships: em and en dashes, AI-tell phrasing,
-  the word "copy" misused for site text, and jargon on non-technical surfaces.
+  Lint user-visible text before it ships, catching em and en dashes, a colon
+  used in place of an em dash, AI-tell phrasing, the word "copy" misused for
+  site text, and jargon on non-technical surfaces.
 ---
 
 # Wording lint
@@ -14,13 +15,14 @@ One em or en dash, or one AI-tell construction, makes writing read as machine-ge
 ## The rules
 
 1. **No em (U+2014) or en (U+2013) dash, anywhere.** Use a hyphen, comma, period, semicolon, parens, or a rewrite.
-2. **No AI-tell constructions:**
+2. **No colon standing in for an em dash.** A colon that just introduces an elaboration or list should be restructured into a direct sentence, even if slightly less formal. For example, "production software: web apps, mobile apps, and automations" becomes "production software including web apps, mobile apps, and automations". Still fine in clock times, ratios, code, and genuine labels.
+3. **No AI-tell constructions:**
    - the "No X, just Y" punch ("No run arounds, just results"),
    - the "it is not X, it is Y" dramatic reversal,
    - the dismissive close ("that's the whole product / pitch / point").
    Flat, informational contrast is fine: "fixed prices, not open ended hourly" tells the reader the pricing model. The same shape used as rhetoric is not.
-3. **Do not use "copy" to mean site text.** Prefer "wording" or "site text". ("Copy the file" is fine; "refresh the marketing copy" is the misuse.)
-4. **No jargon on a non-technical surface.** On anything a general audience reads, say what the thing does, not how it is built.
+4. **Do not use "copy" to mean site text.** Prefer "wording" or "site text". ("Copy the file" is fine; "refresh the marketing copy" is the misuse.)
+5. **No jargon on a non-technical surface.** On anything a general audience reads, say what the thing does, not how it is built.
 
 ## Procedure
 
@@ -45,13 +47,13 @@ Add `--json` for machine-readable findings.
 ### 2. Read the findings
 
 - `FAIL` is an em or en dash. Always wrong; fix it.
-- `REVIEW` is a candidate the detector cannot judge alone: an AI-tell pattern, a dash-like lookalike, or a "copy" usage. You decide.
+- `REVIEW` is a candidate the detector cannot judge alone: an AI-tell pattern, a colon that may be standing in for an em dash, a dash-like lookalike, or a "copy" usage. You decide.
 
 The detector is deliberately generous on `REVIEW` candidates, because a missed AI-tell costs more than a candidate you glance at and dismiss.
 
 ### 3. Adjudicate
 
-For the contrast patterns, the test is whether the contrast carries information or is just drama (rule 2). For "copy", confirm it means site text. The detector cannot see jargon; judge that yourself on anything public-facing.
+For the contrast patterns, the test is whether the contrast carries information or is just drama (rule 3). For the colon (rule 2), restructure when it just introduces an elaboration or list, and leave it for clock times, ratios, code, or a genuine label. For "copy", confirm it means site text. The detector cannot see jargon; judge that yourself on anything public-facing.
 
 ### 4. Fix
 

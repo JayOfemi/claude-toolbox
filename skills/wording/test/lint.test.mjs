@@ -61,3 +61,16 @@ test("leaves allowed informational contrast clean", () => {
 test("does not treat copy-the-file as a violation", () => {
 	assert.equal(scanText("Copy the file to the server, then keep a copy of the log.").length, 0);
 });
+
+test("flags a colon standing in for an em dash", () => {
+	const text = "I build production software: web apps, mobile apps, and automations.";
+	assert.ok(ruleIds(text).includes("colon-elaboration"));
+});
+
+test("leaves clock-time and ratio colons clean", () => {
+	assert.equal(scanText("The standup is at 12:30 today and the split held at 3:1.").length, 0);
+});
+
+test("leaves a genuine label lead-in colon clean", () => {
+	assert.equal(scanText("Note: see the section below for the full setup.").length, 0);
+});

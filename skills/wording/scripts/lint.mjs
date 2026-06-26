@@ -55,6 +55,14 @@ export const RULES = [
 		pattern: /\b(?:marketing|website|web|landing[\s-]?page|home[\s-]?page|hero|site|ad)\s+copy\b/gi,
 		message: "'copy' used for site text, prefer 'wording' or 'site text'",
 	},
+	{
+		// A colon swapped in where an em dash would go (an elaboration that should
+		// just be a direct sentence). Advisory; legitimate in times, ratios, code.
+		id: "colon-elaboration",
+		severity: "review",
+		pattern: /\b[a-z]+\s+[^.!?:\n]{0,50}[a-z]:\s+[a-z]/gi,
+		message: "colon may be standing in for an em dash; if it just elaborates, restructure into a direct sentence (fine for times, ratios, code, labels)",
+	},
 ];
 
 const IGNORE_DIRS = new Set([
