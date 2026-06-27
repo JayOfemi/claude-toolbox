@@ -3,7 +3,8 @@ name: wording
 description: >-
   Lint user-visible text before it ships, catching em and en dashes, a colon
   used in place of an em dash, AI-tell phrasing, the word "copy" misused for
-  site text, and jargon on non-technical surfaces.
+  site text, and jargon or surfaced internal concerns like funding on
+  non-technical surfaces.
 ---
 
 # Wording lint
@@ -19,10 +20,11 @@ One em or en dash, or one AI-tell construction, makes writing read as machine-ge
 3. **No AI-tell constructions:**
    - the "No X, just Y" punch ("No run arounds, just results"),
    - the "it is not X, it is Y" dramatic reversal,
-   - the dismissive close ("that's the whole product / pitch / point").
+   - the dismissive close ("that's the whole product / pitch / point"),
+   - the trailing "thinking out loud" hedge, a bound or qualifier tacked onto the end of a finished claim ("a dozen, if that", "a handshake, if you will"). State the point once instead.
    Flat, informational contrast is fine: "fixed prices, not open ended hourly" tells the reader the pricing model. The same shape used as rhetoric is not.
 4. **Do not use "copy" to mean site text.** Prefer "wording" or "site text". ("Copy the file" is fine; "refresh the marketing copy" is the misuse.)
-5. **No jargon on a non-technical surface.** On anything a general audience reads, say what the thing does, not how it is built.
+5. **No jargon, and no surfaced internal concerns, on a non-technical surface.** Say what the thing does, not how it is built or funded. Funding is the clearest case: a line about how the project is paid for (a tip jar, "buy me a coffee", donations) reads as begging. Keep it off the surface; let a tip jar be a quiet optional button, never a sentence in the product description.
 
 ## Procedure
 

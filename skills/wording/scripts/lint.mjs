@@ -50,10 +50,35 @@ export const RULES = [
 		message: "dismissive close ('that's the whole ___'), reword",
 	},
 	{
+		// A bound or qualifier tacked onto the end of a finished claim, the way a
+		// person revises out loud mid-speech: "slow at best.", "a dozen, if
+		// that.", "a handshake, if you will." Written prose
+		// states the point once; the trailing walk-back is the tell. Anchored
+		// clause-final so real conditionals ("if anything breaks, call me") and
+		// front qualifiers ("At best, we ship Friday") do not match. A genuine
+		// numeric bound ("2 seconds at most") can trip it; that is the review call.
+		id: "ai-tell-trailing-hedge",
+		severity: "review",
+		pattern: /\b(?:at (?:the |very )?(?:most|best|worst)|if anything|if at all|if that|if you will|give or take|or so|more or less|such as it is|so to speak|as it were|for what(?:['\u2019]s| is) it worth|for whatever it(?:['\u2019]s| is) worth|whatever that means)(?=\s*["'\u2019)\]]*\s*(?:[.!?]|$))/gi,
+		message: "trailing afterthought hedge ('... at most', '... if you will'); reads as thinking out loud, cut it or state the point plainly",
+	},
+	{
 		id: "copy-misuse",
 		severity: "review",
 		pattern: /\b(?:marketing|website|web|landing[\s-]?page|home[\s-]?page|hero|site|ad)\s+copy\b/gi,
 		message: "'copy' used for site text, prefer 'wording' or 'site text'",
+	},
+	{
+		// Funding or tip-jar wording surfaced as site text. The business model is
+		// the maker's concern, not the visitor's, so a line explaining how the
+		// project is paid for reads as begging. Build intent like "free, a tip jar
+		// at most" shapes what you build, not what the page says; a tip jar belongs
+		// as a quiet optional button. Review, since the same words are fine as a
+		// button label, or when taking money IS the job (a donation app).
+		id: "surface-funding",
+		severity: "review",
+		pattern: /\b(?:tip jar|buy me a coffee|pay what you (?:want|can|like)|donations? (?:welcome|appreciated)|consider donating|please donate|chip in|ko-?fi|patreon|github sponsors|support (?:this (?:project|tool|app)|the project|my work))\b/gi,
+		message: "funding or tip-jar wording in descriptive text; keep the funding model off the surface (a quiet button is fine), say what the visitor gets",
 	},
 	{
 		// A colon swapped in where an em dash would go (an elaboration that should

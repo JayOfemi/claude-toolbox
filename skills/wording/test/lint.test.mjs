@@ -45,8 +45,45 @@ test("flags the dismissive close", () => {
 	assert.ok(ruleIds("It does one thing. That's the whole product.").includes("ai-tell-dismissive-close"));
 });
 
+test("flags a trailing 'at most' hedge", () => {
+	assert.ok(ruleIds("Free to use, with a tip jar at most.").includes("ai-tell-trailing-hedge"));
+});
+
+test("flags other trailing afterthought hedges", () => {
+	assert.ok(ruleIds("The setup takes a minute, if that.").includes("ai-tell-trailing-hedge"));
+	assert.ok(ruleIds("On a slow connection it is sluggish at best.").includes("ai-tell-trailing-hedge"));
+	assert.ok(ruleIds("It is a digital handshake, if you will.").includes("ai-tell-trailing-hedge"));
+	assert.ok(ruleIds("The migration is done, more or less.").includes("ai-tell-trailing-hedge"));
+});
+
+test("leaves a leading conditional clean (not a trailing hedge)", () => {
+	assert.equal(scanText("If anything breaks, email support and we will fix it.").length, 0);
+});
+
+test("leaves a front-positioned qualifier clean", () => {
+	assert.equal(scanText("At best, we can ship the update on Friday.").length, 0);
+});
+
+test("leaves a mid-sentence bound clean (only clause-final hedges flag)", () => {
+	assert.equal(scanText("Each team plan supports at most five active seats.").length, 0);
+});
+
 test("flags copy used for site text", () => {
 	assert.ok(ruleIds("Please refresh the marketing copy.").includes("copy-misuse"));
+});
+
+test("flags a tip jar as surfaced funding intent", () => {
+	assert.ok(ruleIds("Free to use, with a tip jar at most.").includes("surface-funding"));
+});
+
+test("flags other funding wording surfaced as site text", () => {
+	assert.ok(ruleIds("If this saved you time, buy me a coffee.").includes("surface-funding"));
+	assert.ok(ruleIds("Donations welcome.").includes("surface-funding"));
+	assert.ok(ruleIds("Support this project on Patreon.").includes("surface-funding"));
+});
+
+test("leaves customer-support wording clean (not a funding tell)", () => {
+	assert.equal(scanText("Email our support team and we will sort it out.").length, 0);
 });
 
 test("leaves a clean sentence alone", () => {
