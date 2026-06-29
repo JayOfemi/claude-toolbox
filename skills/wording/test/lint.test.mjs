@@ -86,6 +86,16 @@ test("leaves customer-support wording clean (not a funding tell)", () => {
 	assert.equal(scanText("Email our support team and we will sort it out.").length, 0);
 });
 
+test("flags implementation jargon and hype as surface-jargon", () => {
+	assert.ok(ruleIds("Your own model does the heavy lifting.").includes("surface-jargon"));
+	assert.ok(ruleIds("It runs on-device and works out of the box.").includes("surface-jargon"));
+	assert.ok(ruleIds("A seamless, blazing fast experience.").includes("surface-jargon"));
+});
+
+test("leaves plain 'local version' wording clean (not jargon)", () => {
+	assert.equal(scanText("Get the local version. Install this tool locally to do more than check.").length, 0);
+});
+
 test("leaves a clean sentence alone", () => {
 	const text = "We help small teams ship better software with less stress.";
 	assert.equal(scanText(text).length, 0);

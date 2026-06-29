@@ -49,13 +49,13 @@ Add `--json` for machine-readable findings.
 ### 2. Read the findings
 
 - `FAIL` is an em or en dash. Always wrong; fix it.
-- `REVIEW` is a candidate the detector cannot judge alone: an AI-tell pattern, a colon that may be standing in for an em dash, a dash-like lookalike, or a "copy" usage. You decide.
+- `REVIEW` is a candidate the detector cannot judge alone: an AI-tell pattern, a colon that may be standing in for an em dash, a dash-like lookalike, a "copy" usage, a funding or tip-jar phrase, or implementation jargon. You decide.
 
 The detector is deliberately generous on `REVIEW` candidates, because a missed AI-tell costs more than a candidate you glance at and dismiss.
 
 ### 3. Adjudicate
 
-For the contrast patterns, the test is whether the contrast carries information or is just drama (rule 3). For the colon (rule 2), restructure when it just introduces an elaboration or list, and leave it for clock times, ratios, code, or a genuine label. For "copy", confirm it means site text. The detector cannot see jargon; judge that yourself on anything public-facing.
+For the contrast patterns, the test is whether the contrast carries information or is just drama (rule 3). For the colon (rule 2), restructure when it just introduces an elaboration or list, and leave it for clock times, ratios, code, or a genuine label. For "copy", confirm it means site text. The surface-jargon rule flags common offenders, but it cannot catch every phrasing, so judge plain language yourself on anything public-facing; a clean detector run is not proof the wording is intuitive.
 
 ### 4. Fix
 

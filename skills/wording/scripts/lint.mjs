@@ -81,6 +81,16 @@ export const RULES = [
 		message: "funding or tip-jar wording in descriptive text; keep the funding model off the surface (a quiet button is fine), say what the visitor gets",
 	},
 	{
+		// Implementation jargon ("heavy lifting", "on-device") or vague hype
+		// ("seamless", "blazing") dropped onto a user surface; it means little to a
+		// visitor and reads as internal shorthand. Review, since it is fine in dev
+		// docs or a deliberately technical section.
+		id: "surface-jargon",
+		severity: "review",
+		pattern: /\b(?:heavyweight|lightweight|heavy lifting|on-device|under the hood|out of the box|host model|local model|zero-config|client-side|server-side|seamless(?:ly)?|effortless(?:ly)?|blazing(?:ly)?|supercharged?|cutting-edge|state-of-the-art|next-gen(?:eration)?)\b/gi,
+		message: "implementation jargon or hype on a user-facing surface; say what the visitor gets in plain words (fine in dev docs or a deliberately technical section)",
+	},
+	{
 		// A colon swapped in where an em dash would go (an elaboration that should
 		// just be a direct sentence). Advisory; legitimate in times, ratios, code.
 		id: "colon-elaboration",
