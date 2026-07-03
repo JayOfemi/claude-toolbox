@@ -91,12 +91,44 @@ export const RULES = [
 		message: "implementation jargon or hype on a user-facing surface; say what the visitor gets in plain words (fine in dev docs or a deliberately technical section)",
 	},
 	{
+		// A sentence that announces the shape of the answer or restates the topic
+		// instead of delivering it: "I've worked with X from both sides.", "I have
+		// also worked the server side.", "let me break this down", "at a high
+		// level". Lead with the substance. A clause opener like "On the server
+		// side," is fine; the standalone announcer is the tell.
+		id: "ai-tell-announce",
+		severity: "review",
+		pattern: /\b(?:(?:from|on)\s+both\s+(?:sides|fronts)|I(?:['’]ve| have)\s+(?:also\s+)?worked\s+(?:with\s+[\w-]+\s+)?(?:on|the)\s+[\w\s-]{0,15}?\bsides?\b|let\s+me\s+break\s+(?:this|it|that)\s+down|at\s+a\s+high\s+level|to\s+answer\s+(?:your|the)\s+question)\b/gi,
+		message: "topic-announcing / throat-clearing framing ('from both sides', 'I have also worked the X side', 'let me break this down'); lead with the substance, not the structure",
+	},
+	{
+		// A vague connective bolted onto the next clause as filler: "Around that",
+		// "On top of that", "That said", "At the end of the day". Cut it and state
+		// the point. Anchored sentence-initial so a literal mid-clause use ("built
+		// around that constraint") does not match.
+		id: "ai-tell-glue",
+		severity: "review",
+		pattern: /(?:^|[.!?]\s+)(?:Around that|On top of that|Beyond that|With that said|That said|All in all|All told|Needless to say|Suffice (?:it )?to say|At the end of the day|When all is said and done)\b/g,
+		message: "gluey filler transition ('Around that', 'On top of that', 'That said'); cut it and state the next point directly",
+	},
+	{
+		// Stacked relative clauses padding a noun: "Claude Code, the command-line
+		// tool, which I have used daily and which is my primary client". Keep the
+		// one essential detail or split the sentence.
+		id: "ai-tell-over-qualify",
+		severity: "review",
+		pattern: /\bwhich\s+[^,.;:!?\n]{5,80}?\s+and\s+which\b/gi,
+		message: "stacked 'which ... and which' clauses over-qualify the noun; keep the essential detail or split the sentence",
+	},
+	{
 		// A colon swapped in where an em dash would go (an elaboration that should
-		// just be a direct sentence). Advisory; legitimate in times, ratios, code.
+		// just be a direct sentence). Advisory; legitimate in times, ratios, code,
+		// a genuine label, or a list introduced by a word like "include" / "as
+		// follows" (those introducers are carved out below to cut false positives).
 		id: "colon-elaboration",
 		severity: "review",
-		pattern: /\b[a-z]+\s+[^.!?:\n]{0,50}[a-z]:\s+[a-z]/gi,
-		message: "colon may be standing in for an em dash; if it just elaborates, restructure into a direct sentence (fine for times, ratios, code, labels)",
+		pattern: /\b[a-z]+\s+[^.!?:\n]{0,50}?\b(?!(?:include|includes|including|included|follow|follows|following|namely|below)\b)[a-z]{2,}:\s+[a-z]/gi,
+		message: "colon may be standing in for an em dash; if it just elaborates, restructure into a direct sentence (fine for times, ratios, code, labels, and 'include'-style lists)",
 	},
 ];
 

@@ -121,3 +121,30 @@ test("leaves clock-time and ratio colons clean", () => {
 test("leaves a genuine label lead-in colon clean", () => {
 	assert.equal(scanText("Note: see the section below for the full setup.").length, 0);
 });
+
+test("leaves an 'include' list-introducer colon clean", () => {
+	assert.equal(scanText("Skills I have strengthened include: prompt engineering, evals, and guardrails.").length, 0);
+});
+
+test("flags the announced-structure opener", () => {
+	assert.ok(ruleIds("I've worked with MCP from both sides.").includes("ai-tell-announce"));
+	assert.ok(ruleIds("I have also worked the server side.").includes("ai-tell-announce"));
+});
+
+test("leaves a plain 'on the X side' clause opener clean", () => {
+	assert.equal(scanText("On the server side, I built and shipped the API.").length, 0);
+});
+
+test("flags the gluey filler transition", () => {
+	assert.ok(ruleIds("Around that, I use a handful of tools.").includes("ai-tell-glue"));
+	assert.ok(ruleIds("The core works. On top of that, it is fast.").includes("ai-tell-glue"));
+});
+
+test("leaves a literal mid-clause 'around that' clean", () => {
+	assert.equal(scanText("We built the whole flow around that constraint.").length, 0);
+});
+
+test("flags the over-qualified which-and-which noun", () => {
+	const text = "Claude Code, the tool which I run daily and which is my primary client.";
+	assert.ok(ruleIds(text).includes("ai-tell-over-qualify"));
+});
