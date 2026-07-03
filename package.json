@@ -1,6 +1,6 @@
 {
   "name": "@jayofemi/toolbox",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "An open library of reusable Claude Code skills, commands, and scripts, with a one-command installer.",
   "type": "module",
   "bin": {
