@@ -1,0 +1,17 @@
+{
+  "name": "toolbox",
+  "version": "1.5.1",
+  "description": "An open library of reusable Claude Code skills, commands, and scripts.",
+  "author": {
+    "name": "Jay Ofemi"
+  },
+  "homepage": "https://github.com/JayOfemi/claude-toolbox#readme",
+  "repository": "https://github.com/JayOfemi/claude-toolbox",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "skills",
+    "slash-commands",
+    "developer-tools"
+  ]
+}

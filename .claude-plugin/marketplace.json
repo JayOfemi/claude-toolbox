@@ -1,0 +1,17 @@
+{
+  "name": "jayofemi",
+  "owner": {
+    "name": "Jay Ofemi",
+    "url": "https://github.com/JayOfemi"
+  },
+  "metadata": {
+    "description": "Jay Ofemi's Claude Code toolbox as an installable plugin."
+  },
+  "plugins": [
+    {
+      "name": "toolbox",
+      "source": "./",
+      "description": "An open library of reusable Claude Code skills, commands, and scripts."
+    }
+  ]
+}

@@ -41,6 +41,13 @@ Two kinds of entry, split by who invokes them:
 
 Prefer to copy by hand? A command is `commands/<name>.md` into `~/.claude/commands/`; a skill is the `skills/<name>/` folder into `~/.claude/skills/`.
 
+## Other ways to install
+
+The npx installer above is the primary route, and the repo also works with two others:
+
+- **Claude Code plugin**: run `/plugin marketplace add JayOfemi/claude-toolbox`, then `/plugin install toolbox@jayofemi`. Plugin installs namespace the entries, so the commands become `/toolbox:screenshot` and so on.
+- **The skills CLI**: `npx skills add JayOfemi/claude-toolbox` installs the skills (not the commands) for Claude Code and other agents that read `SKILL.md` folders.
+
 ## Contributing
 
 Small, self-contained, portable contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
