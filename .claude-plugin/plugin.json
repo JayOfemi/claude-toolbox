@@ -1,6 +1,6 @@
 {
   "name": "toolbox",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "description": "An open library of reusable Claude Code skills, commands, and scripts.",
   "author": {
     "name": "Jay Ofemi"
