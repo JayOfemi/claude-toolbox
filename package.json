@@ -18,11 +18,22 @@
     "node": ">=18"
   },
   "keywords": [
-    "claude",
     "claude-code",
-    "skills",
+    "claude",
+    "anthropic",
+    "ai-agents",
     "slash-commands",
-    "ai-agents"
+    "claude-skills",
+    "skills",
+    "cli",
+    "developer-tools",
+    "npm",
+    "npx",
+    "nodejs",
+    "javascript",
+    "llm",
+    "prompt-engineering",
+    "ai"
   ],
   "author": "Jay Ofemi",
   "license": "MIT",
