@@ -42,6 +42,21 @@ test("allowlist suppresses an allowed identity", () => {
 	assert.equal(found.filter((f) => f.rule === "generic-email").length, 0);
 });
 
+test("suppresses a {{placeholder}} inside a template path", () => {
+	const p = "C:\\Users\\" + "{{User}}\\app\\config.json";
+	assert.equal(scan(`see ${p}`).filter((f) => f.rule === "local-filesystem-path").length, 0);
+});
+
+test("still flags a real local path with no placeholder", () => {
+	const p = "C:\\Users\\" + "alice\\app\\config.json";
+	assert.ok(ruleIds(`see ${p}`).includes("local-filesystem-path"));
+});
+
+test("a real name in angle-brackets in prose is not a placeholder", () => {
+	// "<acme-internal>" is prose, not a /<Name> path segment, so the deny term still fires.
+	assert.ok(ruleIds("replace the <acme-internal> marker").some((r) => r.startsWith("deny-term-")));
+});
+
 test("clean text produces no findings", () => {
 	assert.equal(scan("This project does one thing well.").length, 0);
 });

@@ -79,6 +79,35 @@ function allowlisted(text, allow) {
 	});
 }
 
+// A {{...}} mustache token or a /<Name> path segment is a template fill-blank, never a
+// real secret, path, or identity, so a template repo full of placeholders is not a leak.
+// Angle placeholders count only in path form (a leading separator), so a real name in
+// prose like "<Acme>" is not treated as a blank.
+const PLACEHOLDER_MUSTACHE = /\{\{[^{}]*\}\}/;
+const PLACEHOLDER_PATH_ANGLE = /[\\/]<[^<>\\/]+>/;
+
+function insideTemplatePlaceholder(line, start, end) {
+	const matched = line.slice(start, end);
+	// The match text itself carries a placeholder token.
+	if (PLACEHOLDER_MUSTACHE.test(matched) || PLACEHOLDER_PATH_ANGLE.test(matched)) {
+		return true;
+	}
+	const after = line.slice(end);
+	// A placeholder begins exactly where the match ends (e.g. C:\Users\{{User}}).
+	if (after.startsWith("{{")) {
+		return true;
+	}
+	if ((matched.endsWith("/") || matched.endsWith("\\")) && /^<[^<>\\/]+>/.test(after)) {
+		return true;
+	}
+	// The match sits wholly inside a {{ ... }} token.
+	const open = line.lastIndexOf("{{", start);
+	if (open >= 0 && open < start && line.indexOf("}}", open + 2) >= end) {
+		return true;
+	}
+	return false;
+}
+
 function looksBinary(text) {
 	const limit = Math.min(text.length, 8000);
 	for (let i = 0; i < limit; i++) {
@@ -112,6 +141,9 @@ export function scanText(content, file, compiled, allow = []) {
 					continue;
 				}
 				if (allowlisted(hit, allow)) {
+					continue;
+				}
+				if (insideTemplatePlaceholder(line, at, at + hit.length)) {
 					continue;
 				}
 				findings.push({ file, line: i + 1, col: at + 1, rule: rule.id, severity: rule.severity, description: rule.description, snippet: line.trim().slice(0, 200) });
