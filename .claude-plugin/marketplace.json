@@ -12,6 +12,22 @@
       "name": "toolbox",
       "source": "./",
       "description": "An open library of reusable Claude Code skills, commands, and scripts."
+    },
+    {
+      "name": "shikamaru",
+      "source": {
+        "source": "github",
+        "repo": "JayOfemi/shikamaru"
+      },
+      "description": "Provably correct day-count, calendar, business-day, and schedule math, verified against QuantLib."
+    },
+    {
+      "name": "ai-checker",
+      "source": {
+        "source": "github",
+        "repo": "JayOfemi/byakugan"
+      },
+      "description": "Private, on-device AI-text analysis (detection, AI-tell spans, reuse overlap) as an MCP server."
     }
   ]
 }

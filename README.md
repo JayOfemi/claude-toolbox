@@ -45,7 +45,7 @@ Prefer to copy by hand? A command is `commands/<name>.md` into `~/.claude/comman
 
 The npx installer above is the primary route, and the repo also works with two others:
 
-- **Claude Code plugin**: run `/plugin marketplace add JayOfemi/claude-toolbox`, then `/plugin install toolbox@jayofemi`. Plugin installs namespace the entries, so the commands become `/toolbox:screenshot` and so on.
+- **Claude Code plugin**: run `/plugin marketplace add JayOfemi/claude-toolbox`, then `/plugin install toolbox@jayofemi`. Plugin installs namespace the entries, so the commands become `/toolbox:screenshot` and so on. The same marketplace also lists two MCP server plugins, [shikamaru](https://github.com/JayOfemi/shikamaru) (finance math) and [ai-checker](https://github.com/JayOfemi/byakugan) (AI-text analysis), installable with `/plugin install shikamaru@jayofemi` and `/plugin install ai-checker@jayofemi`.
 - **The skills CLI**: `npx skills add JayOfemi/claude-toolbox` installs the skills (not the commands) for Claude Code and other agents that read `SKILL.md` folders.
 
 ## Contributing

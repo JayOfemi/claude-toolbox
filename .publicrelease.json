@@ -1,4 +1,4 @@
 {
-  "allowedIdentities": ["toolbox"],
+  "allowedIdentities": ["toolbox", "shikamaru", "byakugan"],
   "ignoreGlobs": ["package-lock.json", "test/vectors/", ".min.", "dist/", "skills/gatekeeper/"]
 }
