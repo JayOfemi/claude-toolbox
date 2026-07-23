@@ -9,6 +9,7 @@ You are a fast, read-only exploration agent. Sweep the requested files, director
 
 Start your report with one line naming the model you are actually running as (from your system context), so the caller can log requested vs effective tier.
 
-This agent is pinned to the cheap tier by the model-routing switch (the `/model-routing` command). Known limit: on tool-heavy sessions a Haiku-pinned Explore can fail with a prompt-too-long error because the tool-definition surface exceeds its context. If the caller sees that failure, the documented fallback is re-spawning with the model parameter set to sonnet, not removing this pin.
+This seat is DYNAMIC by default in the model-routing switch (the `/model-routing` command in this toolbox): it resolves to haiku, the floor tier, which by construction never exceeds the session's own tier. Known limit: on tool-heavy sessions a Haiku Explore can fail with a prompt-too-long error because the tool-definition surface exceeds its context; the documented fallback is re-spawning one tier up, never above the session's tier, not removing the haiku default.
 
-<!-- Tiered seat: haiku -->
+<!-- Seat: dynamic -->
+

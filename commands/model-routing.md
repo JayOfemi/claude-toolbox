@@ -1,23 +1,22 @@
 ---
-description: Flip the model-routing switch between tiered and inherit, set a stage's seat model, or report where it stands
-argument-hint: [tiered|inherit|status|set <stage> <model>]
+description: Operate the model-routing seats: report where they stand, pin or free a seat, or turn routing off
+argument-hint: [status|dynamic|inherit|set <stage> <model|dynamic>]
 ---
 
-Operate the model-routing switch. Routing is delegation-based and independent of the main session's model: the session orchestrates on whatever model the user picked, and stage work goes to four pinned subagents at `~/.claude/agents/`: `Explore.md`, `Plan.md`, `Execute.md`, `Review.md` (installed from this toolbox's agents entries via the installer; plugin-scoped agents cannot take the built-in Explore and Plan names, so the installer route is the one that makes the switch work).
+Operate the model-routing switch. Routing is delegation-based: stage work goes to four subagents at `~/.claude/agents/`: `Explore.md`, `Plan.md`, `Execute.md`, `Review.md`. Every seat is DYNAMIC by default, resolved when a spawn is about to happen: no seat ever runs above the session's own tier, Plan and Review ride the session tier exactly, Explore resolves to haiku (the floor), and Execute runs sonnet capped at the session tier (callers on stronger sessions pass `model: sonnet` at spawn). A pin set through this command overrides the dynamic rule for that seat, verbatim.
 
-Each file carries two values: the live pin (`model:` in frontmatter) and the seat (`<!-- Tiered seat: X -->` near the end of the body). The seat is the remembered tiered value; the pin is what runs. Seat defaults: Explore haiku, Plan opus, Execute sonnet, Review opus. Plan and Review are the user-chosen strong seats; pin them to the strongest tier you pay for if you want the strongest judge on the bookends.
+Each file carries the live `model:` value and the seat memory (`<!-- Seat: X -->` near the end of the body): `dynamic`, or a pinned model. A dynamic seat's live value is `model: haiku` for Explore and `model: inherit` for the other three.
 
-`$ARGUMENTS` is one of `tiered`, `inherit`, `status` (default when empty), or `set <stage> <model>`.
+`$ARGUMENTS` is one of `status` (default when empty), `dynamic`, `inherit`, or `set <stage> <model|dynamic>`.
 
-**status**: Read both values in all four files and report: position `tiered` when every pin equals its seat, `inherit` when all four pins read `inherit`, MIXED (per-file values) otherwise; plus each seat. Do not change anything. Never tell the user to change their session model; it is not part of the switch.
+**status**: Read both values in all four files and report each seat (dynamic, or pinned to which model), the position (`dynamic` when every seat memory reads dynamic, `inherit` when all four live values read `inherit`, MIXED otherwise), and what the dynamic seats resolve to for THIS session given its model. Change nothing. Never tell the user to change their session model; the switch reads it, never sets it.
 
-**tiered**: Set each file's `model:` to that file's seat value with the Edit tool, then report what changed.
+**dynamic**: Resume routing per the seat memories with the Edit tool: a seat remembering `dynamic` gets its dynamic live value (Explore `model: haiku`, others `model: inherit`); a seat remembering a pin gets that pin back. Report what changed.
 
-**inherit**: Set all four files' `model:` to `inherit` with the Edit tool, leaving every seat line untouched (the seats are the memory that a later `tiered` restores), then report that every stage will follow the session model.
+**inherit**: Routing off. Set all four live `model:` values to `inherit`, leaving every seat memory untouched (the memory is what a later `dynamic` restores). Every stage then follows the session model.
 
-**set <stage> <model>**: `<stage>` is one of explore, plan, execute, review; `<model>` is a model tier your harness accepts (for example haiku, sonnet, opus) - never `inherit`, which is a position, not a seat (reject it and point at `/model-routing inherit`). Update that file's seat line to the new model, and unless the file's pin currently reads `inherit`, set the pin to match. Reject anything else with the valid options. Warn once when a seat is set to a premium tier: unless your settings carry an ask rule for it, premium spawns run without an approval prompt, so the cost surfacing is the agent's own self-report line, after the fact.
+**set <stage> <model|dynamic>**: `<stage>` is one of explore, plan, execute, review. `set <stage> dynamic` returns that seat to the dynamic rule (memory `dynamic`, live value per the mapping above). `set <stage> <model>` with a model tier your harness accepts (for example haiku, sonnet, opus) pins the seat: update the memory, and unless the position is currently `inherit`, set the live value to match. Never accept `inherit` as a seat value; it is a position, not a seat. Reject anything else with the valid options. Warn once when pinning a premium tier: premium spawns run without an approval prompt, so the cost surfacing is the seat's own self-report line, after the fact. A pin is honored verbatim, even above the session tier; an explicit choice is the user's to make.
 
 Notes, state them when relevant rather than dumping them every run:
-- New agent files hot-register mid-session, and pin edits apply to the next spawn without a restart. The one exception: same-named overrides of built-in agents (Explore, Plan) apply from the next session start.
+- New agent files hot-register mid-session, and live-value edits apply to the next spawn without a restart. The one exception: same-named overrides of built-ins (Explore, Plan) apply from the next session start.
 - `CLAUDE_CODE_SUBAGENT_MODEL` is never part of this switch; it is the emergency cost ceiling only, since it flattens every subagent to one model.
-- An alias session model that plans strong and executes cheaper (where your harness offers one) is an optional convenience on top, never required by the switch.

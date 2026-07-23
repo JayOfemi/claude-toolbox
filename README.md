@@ -47,7 +47,7 @@ Four kinds of entry, split by how they run:
 
 ### Agents (the model-routing switch)
 
-Four subagent seats that send each stage of work to the right model tier: **Explore** (haiku, cheap sweeps), **Plan** (opus, design calls), **Execute** (sonnet, spec-driven edits), **Review** (opus, the final judge). The **[model-routing](commands/model-routing.md)** command flips them all between tiered and inherit, re-seats a stage, or reports where things stand. Install the four agents and the command together; the switch needs the installer route, because plugin-scoped agents cannot take the built-in Explore and Plan names.
+Four subagent seats, dynamic by default: nothing ever runs above your session's own tier, **Plan** and **Review** ride the session tier exactly (the bookends get the strongest model you are already paying for), **Explore** stays on cheap Haiku for sweeps, and **Execute** runs Sonnet capped at the session tier for spec-driven edits. The **[model-routing](commands/model-routing.md)** command reports the seats, pins any of them to a fixed model (a pin is honored verbatim), or frees them back to dynamic. Install the four agents and the command together; the switch needs the installer route, because plugin-scoped agents cannot take the built-in Explore and Plan names.
 
 ## Manual install
 
