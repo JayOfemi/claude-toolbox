@@ -49,6 +49,15 @@ Four kinds of entry, split by how they run:
 
 Four subagent seats, dynamic by default: nothing ever runs above your session's own tier, **Plan** and **Review** ride the session tier exactly (the bookends get the strongest model you are already paying for), **Explore** stays on cheap Haiku for sweeps, and **Execute** runs Sonnet capped at the session tier for spec-driven edits. The **[model-routing](commands/model-routing.md)** command reports the seats, pins any of them to a fixed model (a pin is honored verbatim), or frees them back to dynamic. Install the four agents and the command together; the switch needs the installer route, because plugin-scoped agents cannot take the built-in Explore and Plan names.
 
+Unless you pin a seat, the resolution per session model:
+
+| Session model | Explore | Plan | Execute | Review |
+|---|---|---|---|---|
+| Haiku | haiku | haiku | haiku | haiku |
+| Sonnet | haiku | sonnet | sonnet | sonnet |
+| Opus | haiku | opus | sonnet | opus |
+| Your strongest tier | haiku | that tier | sonnet | that tier |
+
 ## Manual install
 
 Prefer to copy by hand? A command is `commands/<name>.md` into `~/.claude/commands/`; a skill is the `skills/<name>/` folder into `~/.claude/skills/`; a hook is `hooks/<name>.mjs` into `~/.claude/hooks/` plus its settings block (event per `hooks/manifest.json`); an agent is `agents/<Name>.md` into `~/.claude/agents/`.
