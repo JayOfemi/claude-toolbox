@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// @jayofemi/toolbox installer: copy selected skills and commands into a Claude
-// Code config. Zero-dependency Node ESM, no build step.
+// @jayofemi/toolbox installer: copy selected skills, commands, hooks, and
+// agents into a Claude Code config. Zero-dependency Node ESM, no build step.
 
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync, cpSync } from "node:fs";
 import { join, dirname, basename } from "node:path";
@@ -42,7 +42,7 @@ function stripQuotes(s) {
 	return s.replace(/^(['"])([\s\S]*)\1$/, "$2");
 }
 
-/** Discover the commands and skills bundled in the package. */
+/** Discover the commands, skills, hooks, and agents bundled in the package. */
 export function discoverEntries(root = PKG_ROOT) {
 	const entries = [];
 	const commandsDir = join(root, "commands");
@@ -70,6 +70,31 @@ export function discoverEntries(root = PKG_ROOT) {
 			});
 		}
 	}
+	const hooksManifest = join(root, "hooks", "manifest.json");
+	if (existsSync(hooksManifest)) {
+		for (const [name, meta] of Object.entries(JSON.parse(readFileSync(hooksManifest, "utf8")))) {
+			const source = join(root, "hooks", `${name}.mjs`);
+			if (existsSync(source)) {
+				entries.push({ name, type: "hook", source, description: meta.description ?? "", event: meta.event });
+			} else {
+				process.stderr.write(`hooks/manifest.json lists ${name} but hooks/${name}.mjs is missing; skipping it\n`);
+			}
+		}
+	}
+	const agentsDir = join(root, "agents");
+	if (existsSync(agentsDir)) {
+		for (const file of readdirSync(agentsDir)) {
+			if (file.endsWith(".md")) {
+				const source = join(agentsDir, file);
+				entries.push({
+					name: basename(file, ".md"),
+					type: "agent",
+					source,
+					description: frontmatterDescription(readFileSync(source, "utf8")),
+				});
+			}
+		}
+	}
 	return entries.sort((a, b) => a.name.localeCompare(b.name));
 }
 
@@ -95,9 +120,16 @@ function findSkillDirs(skillsDir) {
 }
 
 function targetFor(entry, base) {
-	return entry.type === "command"
-		? join(base, ".claude", "commands", `${entry.name}.md`)
-		: join(base, ".claude", "skills", entry.name);
+	if (entry.type === "command") {
+		return join(base, ".claude", "commands", `${entry.name}.md`);
+	}
+	if (entry.type === "hook") {
+		return join(base, ".claude", "hooks", `${entry.name}.mjs`);
+	}
+	if (entry.type === "agent") {
+		return join(base, ".claude", "agents", `${entry.name}.md`);
+	}
+	return join(base, ".claude", "skills", entry.name);
 }
 
 /** Install one entry under base (defaults to the home directory). */
@@ -105,22 +137,40 @@ export function installEntry(entry, base = homedir()) {
 	const target = targetFor(entry, base);
 	const existed = existsSync(target);
 	mkdirSync(dirname(target), { recursive: true });
-	if (entry.type === "command") {
-		writeFileSync(target, readFileSync(entry.source, "utf8"));
-	} else {
+	if (entry.type === "skill") {
 		cpSync(entry.source, target, { recursive: true });
+	} else {
+		writeFileSync(target, readFileSync(entry.source, "utf8"));
 	}
 	return existed ? "updated" : "installed";
 }
 
+/** Settings snippet for installed hooks: scripts copy in, but they run only
+ * once wired into ~/.claude/settings.json; this prints the exact block. */
+export function hookWiringSnippet(hookEntries, base = homedir()) {
+	const byEvent = {};
+	for (const entry of hookEntries) {
+		const event = entry.event || "Stop";
+		byEvent[event] ??= [];
+		const scriptPath = targetFor(entry, base).replace(/\\/g, "/");
+		byEvent[event].push({ type: "command", command: `node "${scriptPath}"` });
+	}
+	const hooks = {};
+	for (const [event, cmds] of Object.entries(byEvent)) {
+		hooks[event] = [{ hooks: cmds }];
+	}
+	return JSON.stringify({ hooks }, null, 2);
+}
+
 function printUsage() {
 	process.stdout.write(
-		"toolbox - install Claude Code skills and commands\n\n" +
+		"toolbox - install Claude Code skills, commands, hooks, and agents\n\n" +
 		"Usage:\n" +
 		"  npx @jayofemi/toolbox             pick from a list and install\n" +
 		"  npx @jayofemi/toolbox list        show everything available\n" +
 		"  npx @jayofemi/toolbox add <name>  install one or more by name\n\n" +
-		"Entries install into ~/.claude (skills/ and commands/).\n",
+		"Entries install into ~/.claude (skills/, commands/, hooks/, agents/).\n" +
+		"Hooks also need one settings.json block; the installer prints it.\n",
 	);
 }
 
@@ -187,6 +237,19 @@ async function main(argv) {
 	for (const entry of selected) {
 		const result = installEntry(entry);
 		process.stdout.write(`${result}: ${entry.name} [${entry.type}]\n`);
+	}
+	const hooksInstalled = selected.filter((e) => e.type === "hook");
+	if (hooksInstalled.length) {
+		process.stdout.write(
+			"\nHooks run only once wired into ~/.claude/settings.json. Merge this into its hooks block\n" +
+			"(hooks on one event run in parallel, so never rely on array order; new hooks apply from your next session):\n\n" +
+			`${hookWiringSnippet(hooksInstalled)}\n`,
+		);
+	}
+	if (selected.some((e) => e.type === "agent")) {
+		process.stdout.write(
+			"\nNew agents register mid-session; overrides of built-in names (Explore, Plan) apply from your next session start.\n",
+		);
 	}
 	return 0;
 }

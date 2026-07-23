@@ -1,7 +1,7 @@
 {
   "name": "@jayofemi/toolbox",
-  "version": "1.6.0",
-  "description": "An open library of reusable Claude Code skills, commands, and scripts, with a one-command installer.",
+  "version": "1.7.0",
+  "description": "An open library of reusable Claude Code skills, commands, hooks, and agents.",
   "type": "module",
   "bin": {
     "toolbox": "bin/toolbox.mjs"
@@ -9,7 +9,9 @@
   "files": [
     "bin/",
     "commands/",
-    "skills/"
+    "skills/",
+    "hooks/",
+    "agents/"
   ],
   "scripts": {
     "test": "node --test"

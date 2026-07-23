@@ -1,0 +1,14 @@
+{
+	"reply-gate": {
+		"event": "Stop",
+		"description": "Bounces a final reply over the prose-length ceiling once, with the exact word count (default 300; REPLY_GATE_MAX_WORDS overrides). Blocks once per turn, then always passes the revision."
+	},
+	"token-report": {
+		"event": "Stop",
+		"description": "Reports each turn's full token spend (subagents and workflows included) as a system message, and appends a daily JSONL ledger under ~/.claude/token-ledger/. Reporter, never a gate."
+	},
+	"token-handoff": {
+		"event": "UserPromptSubmit",
+		"description": "Surfaces the previous turn's cost inside the next reply, for apps that do not render system messages. Pairs with token-report; harmless without it."
+	}
+}

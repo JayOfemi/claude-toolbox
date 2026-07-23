@@ -1,0 +1,24 @@
+{
+	"hooks": {
+		"Stop": [
+			{
+				"hooks": [
+					{
+						"type": "command",
+						"command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/token-report.mjs\""
+					}
+				]
+			}
+		],
+		"UserPromptSubmit": [
+			{
+				"hooks": [
+					{
+						"type": "command",
+						"command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/token-handoff.mjs\""
+					}
+				]
+			}
+		]
+	}
+}
