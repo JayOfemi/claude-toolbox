@@ -11,7 +11,7 @@
     {
       "name": "toolbox",
       "source": "./",
-      "description": "An open library of reusable Claude Code skills, commands, and scripts."
+      "description": "An open library of reusable Claude Code skills, commands, hooks, and agents."
     },
     {
       "name": "shikamaru",
